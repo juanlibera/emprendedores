@@ -1,1130 +1,323 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelbert University Catalog 2025</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Beauty & Brow Studio – Cejas Perfectas</title>
+
+    <!-- Google Font (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Atribución a Unsplash (puedes moverla al pie) -->
+    <noscript>You're using a browser that doesn't support our JavaScript features. Please enable JavaScript to see the site.</noscript>
+
     <style>
+        /* ---------- VARIABLES Y UTILIDADES PERSONALIZADAS ---------- */
         :root {
-            --primary-color: #003366;
-            --secondary-color: #cc0000;
-            --accent-color: #0055a5;
-            --light-color: #f5f7fa;
-            --dark-color: #333333;
-            --text-color: #444444;
-            --border-color: #dddddd;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --radius: 8px;
+            --primary: #0D47A1;      /* color principal del branding */
+            --secondary: #F8BBD0;   /* color secundario */
+            --bg-hero: url('https://images.unsplash.com/photo-1507508352874-8c0e4b2a7d5f?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+
+        /* ---------- EFECTOS DE FUNDIDO Y SCROLL ---------- */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards;
         }
-        
-        body {
-            font-family: 'Open Sans', sans-serif;
-            color: var(--text-color);
-            line-height: 1.6;
-            background-color: #f9f9f9;
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
-        
-        h1, h2, h3, h4, h5 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+
+        .scroll-anim {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: scrollIn 1.8s ease-out forwards;
         }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        @keyframes scrollIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+
+        /* ---------- EFECTO HOVER EN CARDS ---------- */
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
         }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo-section {
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 2rem;
-            margin-right: 15px;
-        }
-        
-        .logo-text h1 {
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 0.2rem;
-        }
-        
-        .logo-text p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .tagline {
-            font-style: italic;
-            font-size: 1rem;
-            text-align: right;
-        }
-        
-        /* Navigation */
-        nav {
-            background-color: white;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 90px;
-            z-index: 99;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.8rem 0;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-right: 1.5rem;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--primary-color);
-            font-weight: 500;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
-        
-        .nav-links a.active {
-            color: var(--secondary-color);
-        }
-        
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: var(--secondary-color);
-        }
-        
-        .mobile-menu-btn {
+
+        /* ---------- MODAL DE RESERVA (sin dependencias) ---------- */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
             display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+            display: none;
+            padding: 2rem;
+        }
+        .modal:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #0D47A1;
+            padding: 1rem 1.5rem;
+        }
+        .close-btn {
             background: none;
             border: none;
+            color: #0D47A1;
             font-size: 1.5rem;
-            color: var(--primary-color);
             cursor: pointer;
+            line-height: 1;
         }
-        
-        /* Main Content */
-        main {
-            padding: 2rem 0;
-            min-height: calc(100vh - 400px);
-        }
-        
-        .page-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 2px solid var(--border-color);
-        }
-        
-        .page-header h2 {
-            font-size: 2.2rem;
-            color: var(--primary-color);
-        }
-        
-        .page-header p {
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            color: var(--text-color);
-        }
-        
-        /* Sections */
-        .section {
-            margin-bottom: 3rem;
+        .modal-body {
+            max-height: 80vh;
+            overflow-y: auto;
             padding: 2rem;
-            background-color: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
         }
-        
-        .section h3 {
-            font-size: 1.8rem;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .section h4 {
-            font-size: 1.4rem;
-            color: var(--accent-color);
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        /* Cards */
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .card {
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-        }
-        
-        .card-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1.2rem;
-        }
-        
-        .card-header h4 {
-            color: white;
-            margin: 0;
-            font-size: 1.3rem;
-        }
-        
-        .card-body {
-            padding: 1.5rem;
-        }
-        
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-        }
-        
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: left;
-            padding: 0.8rem;
-            font-weight: 600;
-        }
-        
-        td {
-            padding: 0.8rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-        
-        tr:hover {
-            background-color: #e9f2ff;
-        }
-        
-        /* Accordion */
-        .accordion {
-            margin: 1.5rem 0;
-        }
-        
-        .accordion-item {
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            margin-bottom: 0.8rem;
-            overflow: hidden;
-        }
-        
-        .accordion-header {
-            padding: 1.2rem;
-            background-color: #f8f9fa;
-            cursor: pointer;
+        .modal-footer {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-        
-        .accordion-header:hover {
-            background-color: #e9ecef;
-        }
-        
-        .accordion-header i {
-            transition: transform 0.3s;
-        }
-        
-        .accordion-header.active i {
-            transform: rotate(180deg);
-        }
-        
-        .accordion-content {
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s, padding 0.3s;
-        }
-        
-        .accordion-content.show {
-            padding: 1.2rem;
-            max-height: 2000px;
-        }
-        
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, transform 0.3s;
-            z-index: 98;
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .back-to-top:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-3px);
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 3rem 0 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-section h4 {
-            color: white;
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-            display: inline-block;
-        }
-        
-        .footer-section p, .footer-section a {
-            color: #cccccc;
-            margin-bottom: 0.8rem;
-            display: block;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-section a:hover {
-            color: white;
-        }
-        
-        .footer-section i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .copyright {
-            text-align: center;
             padding-top: 1.5rem;
-            border-top: 1px solid #444;
-            color: #999;
-            font-size: 0.9rem;
         }
-        
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .cards-container {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .logo-section {
-                margin-bottom: 1rem;
-                justify-content: center;
-            }
-            
-            .tagline {
-                text-align: center;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 90px;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                flex-direction: column;
-                padding: 1rem 0;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-                transform: translateY(-100%);
-                opacity: 0;
-                visibility: hidden;
-                transition: transform 0.3s, opacity 0.3s, visibility 0.3s;
-                z-index: 98;
-            }
-            
-            .nav-links.show {
-                transform: translateY(0);
-                opacity: 1;
-                visibility: visible;
-            }
-            
-            .nav-links li {
-                margin: 0;
-                text-align: center;
-            }
-            
-            .nav-links a {
-                display: block;
-                padding: 1rem;
-                border-bottom: 1px solid #f0f0f0;
-            }
-            
-            .nav-links a.active::after {
-                display: none;
-            }
-            
-            .nav-links a.active {
-                background-color: #f8f9fa;
-            }
-            
-            .section {
-                padding: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .container {
-                padding: 0 15px;
-            }
-            
-            .page-header h2 {
-                font-size: 1.8rem;
-            }
-            
-            .card {
-                margin-bottom: 1.5rem;
-            }
-            
-            .section {
-                padding: 1.2rem;
-            }
+        .modal-footer button {
+            padding: .75rem 1.5rem;
+            font-weight: 600;
         }
     </style>
 </head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <div class="logo-section">
-                <div class="logo">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="logo-text">
-                    <h1>KELBERT UNIVERSITY</h1>
-                    <p>MIAMI | COGITO, ERGO SUM</p>
-                </div>
+<body class="bg-gray-50 text-gray-900 font-sans">
+
+<!-- ==================== HEADER ==================== -->
+<header class="bg-primary text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <a href="#" class="text-3xl font-bold">Beauty & Brow Studio</a>
+        <nav class="hidden md:flex space-x-6">
+            <a href="#about" class="text-lg font-medium">Sobre nosotros</a>
+            <a href="#services" class="text-lg font-medium">Servicios</a>
+            <a href="#contact" class="text-lg font-medium">Contáctanos</a>
+            <a href="#booking" class="text-lg font-medium">Reserva</a>
+        </nav>
+        <button class="md:hidden flex items-center justify-end text-white"
+                aria-label="Cerrar menú"
+                onclick="document.querySelector('#burgerMenu').classList.toggle('hidden')">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 6h18v12H3V6zm0 12h18v-12H3z"/>
+                <path d="M12 5l0.27 0.27 5.2 5.2 -5.2 -5.2-0.27 -0.27 12 0-12 0zm0 12h-1v-12h1z"/>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<!-- ==================== HERO ==================== -->
+<section class="relative bg-gradient-to-r from-primary to-indigo-600 text-white py-20">
+    <div class="absolute inset-0 bg-black opacity-30"></div>
+    <div class="relative container mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fadeIn">¡Cuida tus cejas con estilo!</h1>
+        <p class="text-lg md:text-xl font-medium mb-8 animate-fadeIn">Transformamos tus cejas en la pieza central de tu rostro, ofreciendo tratamientos profesionales, tintes seguros y resultados duraderos.</p>
+        <a href="#booking" class="inline-block bg-primary text-white py-3 px-6 rounded-full shadow-lg hover:shadow-md transition-shadow animate-fadeIn">
+            <svg class="w-6 h-6 mb-2 inline-block" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 22h8v-10h-8V22z"/>
+                <path d="M8 12h4v8H8z"/>
+                <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span class="text-sm font-medium">Reserva ahora</span>
+        </a>
+    </div>
+</section>
+
+<!-- ==================== SOBRE NOSOTROS ==================== -->
+<section id="about" class="py-16 bg-white">
+    <div class="container mx-auto flex flex-col md:grid grid-cols-3 gap-8">
+        <div class="flex items-center justify-center">
+            <img src="https://images.unsplash.com/photo-1587587423739-553d90f88a2c?auto=format&fit=crop&w=800&q=80"
+                 alt="Team working together" class="animate-fadeIn">
+        </div>
+        <div class="text-center">
+            <h2 class="text-3xl font-bold mb-4 animate-fadeIn">Sobre Beauty & Brow Studio</h2>
+            <p class="text-lg font-medium mb-6 animate-fadeIn">
+                Somos un estudio especializado en cejas, con más de 10 años de experiencia. Nuestro equipo de profesionales está comprometido a ofrecer resultados impecables, usando técnicas de última generación y productos de alta calidad. Cada cliente recibe un trato personalizado y una experiencia que se refleja en su reflejo.
+            </p>
+            <a href="#contact" class="inline-block bg-primary text-white py-3 px-6 rounded-full shadow-lg hover:shadow-md transition-shadow animate-fadeIn">
+                <svg class="w-5 h-5 mb-2 inline-block" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 22h8v-10h-8V22z"/>
+                    <path d="M8 12h4v8H8z"/>
+                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span class="text-sm font-medium">Contáctanos</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SERVICIOS ==================== -->
+<section id="services" class="py-16 bg-gray-50">
+    <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-8 animate-fadeIn">Nuestros Servicios</h2>
+
+        <div class="grid md:grid-cols-4 gap-8">
+            <!-- Servicio 1 -->
+            <div class="service-card bg-white p-8 rounded-lg shadow hover:shadow-lg transition-transform">
+                <img src="https://images.unsplash.com/photo-1523517279334-8c624567e5a1?auto=format&fit=crop&w=600&q=80"
+                     alt="Brow shaping" class="w-full h-40 object-cover animate-fadeIn">
+                <h3 class="mt-4 text-xl font-semibold text-primary animate-fadeIn">Diseño de Ceja (Brow Shaping)</h3>
+                <p class="mt-2 text-sm text-gray-600 animate-fadeIn">Definimos la forma ideal de tu ceja, adaptándola a tu rostro para un aspecto natural o dramático.</p>
             </div>
-            <div class="tagline">
-                <p>Transformative Education for Evolving Work Environments</p>
+
+            <!-- Servicio 2 -->
+            <div class="service-card bg-white p-8 rounded-lg shadow hover:shadow-lg transition-transform">
+                <img src="https://images.unsplash.com/photo-1587587423739-553d90f88a2c?auto=format&fit=crop&w=600&q=80"
+                     alt="Tint de cejas" class="w-full h-40 object-cover animate-fadeIn">
+                <h3 class="mt-4 text-xl font-semibold text-primary animate-fadeIn">Tint de Ceja</h3>
+                <p class="mt-2 text-sm text-gray-600 animate-fadeIn">Color intenso y duradero sin necesidad de retoques. Ideal para eventos y citas importantes.</p>
+            </div>
+
+            <!-- Servicio 3 -->
+            <div class="service-card bg-white p-8 rounded-lg shadow hover:shadow-lg transition-transform">
+                <img src="https://images.unsplash.com/photo-1507508352874-8c0e4b2a7d5f?auto=format&fit=crop&w=600&q=80"
+                     alt="Microblading" class="w-full h-40 object-cover animate-fadeIn">
+                <h3 class="mt-4 text-xl font-semibold text-primary animate-fadeIn">Microblading</h3>
+                <p class="mt-2 text-sm text-gray-600 animate-fadeIn">Técnica de tinta microperforada que simula cejas naturales y dura hasta 2 años.</p>
+            </div>
+
+            <!-- Servicio 4 -->
+            <div class="service-card bg-white p-8 rounded-lg shadow hover:shadow-lg transition-transform">
+                <img src="https://images.unsplash.com/photo-1587587423739-553d90f88a2c?auto=format&fit=crop&w=600&q=80"
+                     alt="Lifting de cejas" class="w-full h-40 object-cover animate-fadeIn">
+                <h3 class="mt-4 text-xl font-semibold text-primary animate-fadeIn">Lifting de Ceja</h3>
+                <p class="mt-2 text-sm text-gray-600 animate-fadeIn">Elevamos y alineamos la ceja para un aspecto más abierto y juvenil.</p>
             </div>
         </div>
-    </header>
+    </div>
+</section>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="container nav-container">
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
+<!-- ==================== CONTACTO / RESERVA ==================== -->
+<section id="contact" class="py-16 bg-gray-100">
+    <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-8 animate-fadeIn">Contáctanos</h2>
+
+        <div class="flex justify-center space-x-4">
+            <!-- Formulario -->
+            <form id="contactForm" class="max-w-md w-full space-y-4">
+                <input type="text" name="name" placeholder="Nombre" required class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                <input type="email" name="email" placeholder="Correo electrónico" required class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                <textarea name="message" placeholder="Mensaje" rows="4" required class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition-colors animate-fadeIn">
+                    Enviar mensaje
+                </button>
+            </form>
+
+            <!-- Botón de reserva que muestra modal -->
+            <button id="bookingBtn" class="bg-primary text-white px-6 py-3 rounded-full shadow-lg hover:shadow-md transition-shadow animate-fadeIn">
+                <svg class="w-6 h-6 mb-2 inline-block" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 22h8v-10h-8V22z"/>
+                    <path d="M8 12h4v8H8z"/>
+                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span class="text-sm font-medium">Reserva ahora</span>
             </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#welcome" class="active">Welcome</a></li>
-                <li><a href="#programs">Programs</a></li>
-                <li><a href="#admissions">Admissions</a></li>
-                <li><a href="#academics">Academics</a></li>
-                <li><a href="#policies">Policies</a></li>
-                <li><a href="#faculty">Faculty</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="nav-info">
-                <span>Catalog 2025 | Volume 1</span>
-            </div>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main>
-        <div class="container">
-            <!-- Welcome Section -->
-            <section id="welcome" class="section">
-                <div class="page-header">
-                    <h2>Welcome to Kelbert University</h2>
-                    <p>Providing accessible, high-quality, and flexible education through distance and hybrid learning models since 2025</p>
-                </div>
-                
-                <div class="cards-container">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><i class="fas fa-bullseye"></i> Our Mission</h4>
-                        </div>
-                        <div class="card-body">
-                            <p>Kelbert University is committed to providing accessible, high-quality, and flexible education through distance and hybrid learning models. Our programs prepare students to lead with purpose by blending academic excellence, real-world application, and community connection.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><i class="fas fa-eye"></i> Our Vision</h4>
-                        </div>
-                        <div class="card-body">
-                            <p>To be a globally recognized leader in online and hybrid education, known for our unwavering commitment to fostering a vibrant community, cultivating strong business relations, and empowering students to achieve their full potential.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><i class="fas fa-calendar-alt"></i> Academic Calendar</h4>
-                        </div>
-                        <div class="card-body">
-                            <p>Kelbert University operates on an 8-week semester system with multiple start dates throughout the year. The 2024-2025 academic year includes Fall, Spring, and Summer semesters divided into A and B sessions.</p>
-                            <a href="#academics" class="nav-link" style="color: var(--accent-color); font-weight: 600; margin-top: 10px; display: inline-block;">View Calendar Details →</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 2rem; padding: 1.5rem; background-color: #f0f7ff; border-radius: var(--radius); border-left: 4px solid var(--accent-color);">
-                    <h4>Licensing & Accreditation</h4>
-                    <p><strong>Licensed by:</strong> Commission for Independent Education, Florida Department of Education</p>
-                    <p><strong>License #:</strong> 13089</p>
-                    <p><strong>Status:</strong> Currently not accredited</p>
-                    <p><strong>Contact Commission:</strong> 1-888-224-6684 (toll-free)</p>
-                </div>
-            </section>
-
-            <!-- Programs Section -->
-            <section id="programs" class="section">
-                <h3>Academic Programs</h3>
-                <p>Kelbert University offers a range of programs designed to meet the needs of today's students and employers. Our curriculum blends academic excellence with practical application.</p>
-                
-                <div class="cards-container">
-                    <div class="card">
-                        <div class="card-header" style="background-color: var(--accent-color);">
-                            <h4><i class="fas fa-chart-line"></i> Executive MBA</h4>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Credits:</strong> 36</p>
-                            <p><strong>Tuition:</strong> $11,820</p>
-                            <p>Designed for professionals and executives seeking to enhance leadership skills, business acumen, and global perspective.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header" style="background-color: var(--accent-color);">
-                            <h4><i class="fas fa-bullhorn"></i> Mass Media & Digital Marketing</h4>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Credits:</strong> 39</p>
-                            <p><strong>Tuition:</strong> $12,780</p>
-                            <p>Comprehensive understanding of mass media and digital marketing's role in shaping contemporary culture and economy.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header" style="background-color: var(--accent-color);">
-                            <h4><i class="fas fa-robot"></i> Data Analytics & AI</h4>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Credits:</strong> 39</p>
-                            <p><strong>Tuition:</strong> $12,780</p>
-                            <p>Advanced knowledge in data analytics, machine learning, and AI to solve complex problems across various domains.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header" style="background-color: var(--accent-color);">
-                            <h4><i class="fas fa-briefcase"></i> Business Administration (BA)</h4>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Credits:</strong> 120</p>
-                            <p><strong>Tuition:</strong> $33,900</p>
-                            <p>Comprehensive education in business management and administration with focus on critical thinking and leadership.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header" style="background-color: var(--accent-color);">
-                            <h4><i class="fas fa-balance-scale"></i> Paralegal Studies (AA)</h4>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Credits:</strong> 60</p>
-                            <p><strong>Tuition:</strong> $17,100</p>
-                            <p>Foundational knowledge and skills for entry-level positions in the legal field as a paralegal professional.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Admissions Section -->
-            <section id="admissions" class="section">
-                <h3>Admissions Requirements</h3>
-                
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>Master's Programs</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <ul style="padding-left: 1.5rem;">
-                                <li>Proof of bachelor's degree (official transcripts)</li>
-                                <li>Completed admissions application</li>
-                                <li>Application fee of $100 (non-refundable)</li>
-                                <li>Government-issued identification</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>Bachelor's & Associate Programs</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <ul style="padding-left: 1.5rem;">
-                                <li>High school diploma or equivalent</li>
-                                <li>Copy of valid government-issued ID</li>
-                                <li>Completed admissions application</li>
-                                <li>Application fee of $100</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <h4>Tuition & Fees (2024 Academic Year)</h4>
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Program</th>
-                                <th>Credits</th>
-                                <th>Tuition</th>
-                                <th>Total Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Executive MBA</td>
-                                <td>36</td>
-                                <td>$11,520</td>
-                                <td>$11,820</td>
-                            </tr>
-                            <tr>
-                                <td>Mass Media & Digital Marketing</td>
-                                <td>39</td>
-                                <td>$12,480</td>
-                                <td>$12,780</td>
-                            </tr>
-                            <tr>
-                                <td>Data Analytics & AI</td>
-                                <td>39</td>
-                                <td>$12,480</td>
-                                <td>$12,780</td>
-                            </tr>
-                            <tr>
-                                <td>Business Administration (BA)</td>
-                                <td>120</td>
-                                <td>$33,600</td>
-                                <td>$33,900</td>
-                            </tr>
-                            <tr>
-                                <td>Paralegal Studies (AA)</td>
-                                <td>60</td>
-                                <td>$16,800</td>
-                                <td>$17,100</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p style="margin-top: 1rem; font-size: 0.9rem;"><em>*All totals include $100 application fee and $200 graduation fee</em></p>
-            </section>
-
-            <!-- Academics Section -->
-            <section id="academics" class="section">
-                <h3>Academic Information</h3>
-                
-                <div class="cards-container">
-                    <div class="card">
-                        <div class="card-header" style="background-color: #2c5530;">
-                            <h4><i class="fas fa-university"></i> Semester System</h4>
-                        </div>
-                        <div class="card-body">
-                            <p>Kelbert University operates on a semester system with 8-week sessions throughout the year. Courses are offered in Fall, Spring, and Summer semesters.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header" style="background-color: #2c5530;">
-                            <h4><i class="fas fa-graduation-cap"></i> Grading System</h4>
-                        </div>
-                        <div class="card-body">
-                            <p>Undergraduate students must maintain a 2.0 GPA. Graduate students must maintain a 3.0 GPA. Letter grades range from A (94-100%) to F (0-59%).</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header" style="background-color: #2c5530;">
-                            <h4><i class="fas fa-exchange-alt"></i> Transfer Credits</h4>
-                        </div>
-                        <div class="card-body">
-                            <p>Transfer credit evaluation requires course description and school catalog. Maximum 25% of total credits can be transferred. $350 evaluation fee applies.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <h4>Upcoming Semester Dates</h4>
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Semester</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Add/Drop Deadline</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Fall A 2025</td>
-                                <td>Aug 25, 2025</td>
-                                <td>Oct 17, 2025</td>
-                                <td>Sep 1, 2025</td>
-                            </tr>
-                            <tr>
-                                <td>Fall B 2025</td>
-                                <td>Oct 27, 2025</td>
-                                <td>Dec 19, 2025</td>
-                                <td>Nov 3, 2025</td>
-                            </tr>
-                            <tr>
-                                <td>Spring A 2026</td>
-                                <td>Jan 5, 2026</td>
-                                <td>Feb 27, 2026</td>
-                                <td>Jan 12, 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Spring B 2026</td>
-                                <td>Mar 2, 2026</td>
-                                <td>Apr 24, 2026</td>
-                                <td>Mar 9, 2026</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Policies Section -->
-            <section id="policies" class="section">
-                <h3>University Policies</h3>
-                
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>Academic Integrity Policy</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <p>Cheating and plagiarism are strictly prohibited. Cheating includes giving or obtaining aid by illicit means. Plagiarism is using another's work without proper acknowledgment.</p>
-                            <p><strong>Penalties:</strong> First offense results in formal documentation. Second offense becomes part of permanent academic record. Subsequent offenses may lead to suspension or dismissal.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>Attendance Policy</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <p>Students are expected to attend all scheduled classes. More than 2 "free" absences per semester are not permitted.</p>
-                            <p><strong>Consequences:</strong></p>
-                            <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
-                                <li>3-5 absences: One-letter grade deduction from final course grade</li>
-                                <li>6+ absences: Failure of the course regardless of grade average</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>Student Conduct Code</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <p>Students are subject to disciplinary action for misconduct including:</p>
-                            <ul style="padding-left: 1.5rem;">
-                                <li>Dishonesty, cheating, or plagiarism</li>
-                                <li>Theft or damage to property</li>
-                                <li>Disruptive or abusive behavior</li>
-                                <li>Possession of weapons or illegal substances</li>
-                                <li>Violation of university policies</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>Refund Policy</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <p><strong>Cancellation & Refund Schedule:</strong></p>
-                            <ul style="padding-left: 1.5rem;">
-                                <li>Week 1 (through add/drop): 100% tuition refund (minus $100 registration fee)</li>
-                                <li>Week 2: 75% tuition refunded</li>
-                                <li>Week 3: 50% tuition refunded</li>
-                                <li>Week 4: 25% tuition refunded</li>
-                                <li>Week 5+: 0% tuition refunded ($75 withdrawal fee applies)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Faculty Section -->
-            <section id="faculty" class="section">
-                <h3>Faculty</h3>
-                <p>Our faculty members bring a wealth of academic knowledge and professional experience to the classroom.</p>
-                
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Professor</th>
-                                <th>Credentials</th>
-                                <th>Courses Taught</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Robert Dominguez</strong></td>
-                                <td>Juris Doctor (Law) from Florida International University</td>
-                                <td>Business Law, Ethics, Introduction to Paralegal Studies</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Kristy Perez</strong></td>
-                                <td>Juris Doctor (Law) from St. Thomas University</td>
-                                <td>Legal Research & Writing, Litigation Document Preparation</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Kelly Dominguez</strong></td>
-                                <td>Juris Doctor (Law) from Nova Southeastern University</td>
-                                <td>Public Speaking, Marketing & Mass Media Communications</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Joseph Suarez</strong></td>
-                                <td>Juris Doctor (Law) from St. Thomas University</td>
-                                <td>Accounting, Statistics, Paralegal Studies Capstone</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact" class="section">
-                <h3>Contact Information</h3>
-                
-                <div class="cards-container">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><i class="fas fa-map-marker-alt"></i> Campus Location</h4>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Address:</strong><br>
-                            5979 NW 151 Street, Suite 120<br>
-                            Miami Lakes, FL 33014</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><i class="fas fa-clock"></i> Hours of Operation</h4>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>School Hours:</strong><br>
-                            Mon-Fri: 9:00 AM – 7:00 PM<br>
-                            Sat: 9:00 AM – 1:00 PM</p>
-                            
-                            <p><strong>Office Hours:</strong><br>
-                            Mon-Fri: 9:00 AM – 5:00 PM</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <h4><i class="fas fa-phone-alt"></i> Contact Details</h4>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Phone:</strong> 72-GRADUATE (724-723-8283)</p>
-                            <p><strong>Commission Contact:</strong> 1-888-224-6684</p>
-                            <p><strong>License #:</strong> 13089</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 2rem; padding: 1.5rem; background-color: #f8f9fa; border-radius: var(--radius);">
-                    <h4>University Officers</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                        <div>
-                            <p><strong>President:</strong><br>Robert Dominguez</p>
-                        </div>
-                        <div>
-                            <p><strong>Academic Director:</strong><br>Kelly Dominguez</p>
-                        </div>
-                        <div>
-                            <p><strong>Student Services:</strong><br>Ian Diaz</p>
-                        </div>
-                        <div>
-                            <p><strong>Registrar:</strong><br>Irene Vega</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <!-- Back to Top Button -->
-    <div class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Kelbert University</h4>
-                    <p>Providing accessible, high-quality, and flexible education through distance and hybrid learning models.</p>
-                    <p><i class="fas fa-map-marker-alt"></i> 5979 NW 151 Street, Suite 120<br>Miami Lakes, FL 33014</p>
-                    <p><i class="fas fa-phone"></i> 72-GRADUATE (724-723-8283)</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <a href="#welcome"><i class="fas fa-chevron-right"></i> Welcome</a>
-                    <a href="#programs"><i class="fas fa-chevron-right"></i> Academic Programs</a>
-                    <a href="#admissions"><i class="fas fa-chevron-right"></i> Admissions</a>
-                    <a href="#academics"><i class="fas fa-chevron-right"></i> Academic Calendar</a>
-                    <a href="#policies"><i class="fas fa-chevron-right"></i> University Policies</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Important Information</h4>
-                    <p><i class="fas fa-exclamation-circle"></i> Licensed by Florida Department of Education</p>
-                    <p><i class="fas fa-university"></i> License #13089</p>
-                    <p><i class="fas fa-info-circle"></i> Currently not accredited</p>
-                    <p><i class="fas fa-phone"></i> Commission: 1-888-224-6684</p>
-                </div>
+    <!-- Modal de confirmación / reserva -->
+    <div id="reservationModal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal">
+            <div class="modal-header flex items-center justify-between">
+                <h3 class="text-xl font-semibold">Confirmación de reserva</h3>
+                <button class="close-btn" aria-label="Cerrar modal" onclick="document.getElementById('reservationModal').classList.remove('show')">
+                    X
+                </button>
             </div>
-            
-            <div class="copyright">
-                <p>© 2025 Kelbert University Catalog | Volume 1 | Designed for Presentation Purposes</p>
-                <p style="margin-top: 0.5rem; font-size: 0.8rem;">This is a web version of the official Kelbert University Catalog PDF</p>
+            <div class="modal-body">
+                <p>¡Gracias por confiar en Beauty & Brow Studio! Tu cita está confirmada. Recibirás un email con los detalles.</p>
+                <button class="mt-4 bg-primary text-white px-6 py-3 rounded hover:bg-secondary transition-colors"
+                        onclick="document.getElementById('reservationModal').classList.remove('show')">
+                    Volver
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button class="text-sm font-medium hover:underline"
+                        onclick="document.getElementById('reservationModal').classList.remove('show')">
+                    Cancelar
+                </button>
             </div>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-            mobileMenuBtn.innerHTML = navLinks.classList.contains('show') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
+<!-- ==================== FOOTER ==================== -->
+<footer class="bg-primary text-white py-8">
+    <div class="container mx-auto text-center">
+        <p class="mb-4">
+            © 2025 Beauty & Brow Studio • Todos los derechos reservados.
+        </p>
+        <p>
+            <a href="https://unsplash.com/photos/8c0e4b2a7d5f" target="_blank" rel="noopener noreferrer"
+               class="text-sm underline">Imágenes de referencia de Unsplash</a>
+        </p>
+    </div>
+</footer>
+
+<!-- ==================== JAVASCRIPT (animaciones y modal) ==================== -->
+<script>
+    // ---------- ANIMACIONES AL CARGAR LA PÁGINA ----------
+    const elements = document.querySelectorAll('.animate-fadeIn');
+    elements.forEach(el => {
+        el.classList.add('fade-in');
+        requestAnimationFrame(() => el.classList.remove('fade-in'));
+    });
+
+    // ---------- EFECTO DE SCROLL (para secciones) ----------
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('section');
+        sections.forEach(sec => {
+            const offset = sec.getBoundingClientRect().top + window.pageYOffset;
+            if (offset > 200) sec.classList.add('scroll-anim');
+            else sec.classList.remove('scroll-anim');
         });
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Close mobile menu if open
-                if (navLinks.classList.contains('show')) {
-                    navLinks.classList.remove('show');
-                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                }
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Update active nav link
-                    document.querySelectorAll('.nav-links a').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                }
-            });
-        });
-        
-        // Accordion functionality
-        document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const accordionItem = header.parentElement;
-                const accordionContent = header.nextElementSibling;
-                
-                // Toggle active class on header
-                header.classList.toggle('active');
-                
-                // Toggle show class on content
-                if (header.classList.contains('active')) {
-                    accordionContent.classList.add('show');
-                } else {
-                    accordionContent.classList.remove('show');
-                }
-                
-                // Close other accordion items in the same accordion
-                const accordion = accordionItem.parentElement;
-                accordion.querySelectorAll('.accordion-item').forEach(item => {
-                    if (item !== accordionItem) {
-                        item.querySelector('.accordion-header').classList.remove('active');
-                        item.querySelector('.accordion-content').classList.remove('show');
-                    }
-                });
-            });
-        });
-        
-        // Back to Top Button
-        const backToTopBtn = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopBtn.classList.add('show');
-            } else {
-                backToTopBtn.classList.remove('show');
-            }
-        });
-        
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Highlight active navigation link on scroll
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            let currentSection = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 150;
-                const sectionHeight = section.clientHeight;
-                
-                if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${currentSection}`) {
-                    link.classList.add('active');
-                }
-            });
-        });
-        
-        // Set first accordion item as open by default
-        document.querySelectorAll('.accordion').forEach(accordion => {
-            const firstItem = accordion.querySelector('.accordion-item');
-            if (firstItem) {
-                firstItem.querySelector('.accordion-header').classList.add('active');
-                firstItem.querySelector('.accordion-content').classList.add('show');
-            }
-        });
-    </script>
+    });
+
+    // ---------- MODAL DE RESERVA ----------
+    const modal = document.getElementById('reservationModal');
+    const showModal = () => {
+        modal.classList.add('show');
+    };
+    const hideModal = () => {
+        modal.classList.remove('show');
+    };
+    document.getElementById('bookingBtn').addEventListener('click', showModal);
+    document.getElementById('close-btn').addEventListener('click', hideModal);
+
+    // ---------- FORMULARIO DE CONTACTO (opcional) ----------
+    document.getElementById('contactForm').addEventListener('submit', e => {
+        e.preventDefault();
+        // Aquí podrías enviar el formulario a tu backend o mostrar un mensaje de éxito.
+        alert('¡Gracias! Tu mensaje ha sido enviado.');
+        e.target.reset();
+        document.getElementById('contactForm').classList.add('hidden');
+        setTimeout(() => document.getElementById('contactForm').classList.remove('hidden'), 2000);
+    });
+</script>
 </body>
 </html>
