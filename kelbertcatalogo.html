@@ -1,323 +1,101 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beauty & Brow Studio – Cejas Perfectas</title>
-
-    <!-- Google Font (Montserrat) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Atribución a Unsplash (puedes moverla al pie) -->
-    <noscript>You're using a browser that doesn't support our JavaScript features. Please enable JavaScript to see the site.</noscript>
-
-    <style>
-        /* ---------- VARIABLES Y UTILIDADES PERSONALIZADAS ---------- */
-        :root {
-            --primary: #0D47A1;      /* color principal del branding */
-            --secondary: #F8BBD0;   /* color secundario */
-            --bg-hero: url('https://images.unsplash.com/photo-1507508352874-8c0e4b2a7d5f?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-        }
-
-        /* ---------- EFECTOS DE FUNDIDO Y SCROLL ---------- */
-        .fade-in {
-            opacity: 0;
-            animation: fadeIn 1.5s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .scroll-anim {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: scrollIn 1.8s ease-out forwards;
-        }
-        @keyframes scrollIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ---------- EFECTO HOVER EN CARDS ---------- */
-        .service-card:hover {
-            transform: translateY(-8px) scale(1.04);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-        }
-
-        /* ---------- MODAL DE RESERVA (sin dependencias) ---------- */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal {
-            position: fixed;
-            top: 0; left: 0;
-            width: 90%;
-            max-width: 500px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-            display: none;
-            padding: 2rem;
-        }
-        .modal:after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.4);
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #0D47A1;
-            padding: 1rem 1.5rem;
-        }
-        .close-btn {
-            background: none;
-            border: none;
-            color: #0D47A1;
-            font-size: 1.5rem;
-            cursor: pointer;
-            line-height: 1;
-        }
-        .modal-body {
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 2rem;
-        }
-        .modal-footer {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 1.5rem;
-        }
-        .modal-footer button {
-            padding: .75rem 1.5rem;
-            font-weight: 600;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo Kelbert</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: #004080;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background: #0066cc;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 0.5rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      padding: 2rem;
+    }
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .producto {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .producto:hover {
+      transform: scale(1.03);
+    }
+    .producto img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+    footer {
+      background: #004080;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body>
+  <header>
+    <h1>Catálogo Kelbert</h1>
+    <p>Productos de calidad para emprendedores</p>
+  </header>
 
-<!-- ==================== HEADER ==================== -->
-<header class="bg-primary text-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <a href="#" class="text-3xl font-bold">Beauty & Brow Studio</a>
-        <nav class="hidden md:flex space-x-6">
-            <a href="#about" class="text-lg font-medium">Sobre nosotros</a>
-            <a href="#services" class="text-lg font-medium">Servicios</a>
-            <a href="#contact" class="text-lg font-medium">Contáctanos</a>
-            <a href="#booking" class="text-lg font-medium">Reserva</a>
-        </nav>
-        <button class="md:hidden flex items-center justify-end text-white"
-                aria-label="Cerrar menú"
-                onclick="document.querySelector('#burgerMenu').classList.toggle('hidden')">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M3 6h18v12H3V6zm0 12h18v-12H3z"/>
-                <path d="M12 5l0.27 0.27 5.2 5.2 -5.2 -5.2-0.27 -0.27 12 0-12 0zm0 12h-1v-12h1z"/>
-            </svg>
-        </button>
-    </div>
-</header>
+  <nav aria-label="Menú principal">
+    <a href="#inicio">Inicio</a>
+    <a href="#catalogo">Catálogo</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
 
-<!-- ==================== HERO ==================== -->
-<section class="relative bg-gradient-to-r from-primary to-indigo-600 text-white py-20">
-    <div class="absolute inset-0 bg-black opacity-30"></div>
-    <div class="relative container mx-auto text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fadeIn">¡Cuida tus cejas con estilo!</h1>
-        <p class="text-lg md:text-xl font-medium mb-8 animate-fadeIn">Transformamos tus cejas en la pieza central de tu rostro, ofreciendo tratamientos profesionales, tintes seguros y resultados duraderos.</p>
-        <a href="#booking" class="inline-block bg-primary text-white py-3 px-6 rounded-full shadow-lg hover:shadow-md transition-shadow animate-fadeIn">
-            <svg class="w-6 h-6 mb-2 inline-block" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 22h8v-10h-8V22z"/>
-                <path d="M8 12h4v8H8z"/>
-                <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <span class="text-sm font-medium">Reserva ahora</span>
-        </a>
-    </div>
-</section>
-
-<!-- ==================== SOBRE NOSOTROS ==================== -->
-<section id="about" class="py-16 bg-white">
-    <div class="container mx-auto flex flex-col md:grid grid-cols-3 gap-8">
-        <div class="flex items-center justify-center">
-            <img src="https://images.unsplash.com/photo-1587587423739-553d90f88a2c?auto=format&fit=crop&w=800&q=80"
-                 alt="Team working together" class="animate-fadeIn">
+  <main>
+    <section id="catalogo">
+      <h2>Nuestros Productos</h2>
+      <div class="catalogo">
+        <div class="producto">
+          <img src="producto1.jpg" alt="Producto 1 - descripción breve">
+          <h3>Producto 1</h3>
+          <p>Descripción corta del producto.</p>
+          <p><strong>$100</strong></p>
         </div>
-        <div class="text-center">
-            <h2 class="text-3xl font-bold mb-4 animate-fadeIn">Sobre Beauty & Brow Studio</h2>
-            <p class="text-lg font-medium mb-6 animate-fadeIn">
-                Somos un estudio especializado en cejas, con más de 10 años de experiencia. Nuestro equipo de profesionales está comprometido a ofrecer resultados impecables, usando técnicas de última generación y productos de alta calidad. Cada cliente recibe un trato personalizado y una experiencia que se refleja en su reflejo.
-            </p>
-            <a href="#contact" class="inline-block bg-primary text-white py-3 px-6 rounded-full shadow-lg hover:shadow-md transition-shadow animate-fadeIn">
-                <svg class="w-5 h-5 mb-2 inline-block" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 22h8v-10h-8V22z"/>
-                    <path d="M8 12h4v8H8z"/>
-                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
-                </svg>
-                <span class="text-sm font-medium">Contáctanos</span>
-            </a>
+        <div class="producto">
+          <img src="producto2.jpg" alt="Producto 2 - descripción breve">
+          <h3>Producto 2</h3>
+          <p>Descripción corta del producto.</p>
+          <p><strong>$150</strong></p>
         </div>
-    </div>
-</section>
+        <!-- Agregar más productos aquí -->
+      </div>
+    </section>
+  </main>
 
-<!-- ==================== SERVICIOS ==================== -->
-<section id="services" class="py-16 bg-gray-50">
-    <div class="container mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-8 animate-fadeIn">Nuestros Servicios</h2>
-
-        <div class="grid md:grid-cols-4 gap-8">
-            <!-- Servicio 1 -->
-            <div class="service-card bg-white p-8 rounded-lg shadow hover:shadow-lg transition-transform">
-                <img src="https://images.unsplash.com/photo-1523517279334-8c624567e5a1?auto=format&fit=crop&w=600&q=80"
-                     alt="Brow shaping" class="w-full h-40 object-cover animate-fadeIn">
-                <h3 class="mt-4 text-xl font-semibold text-primary animate-fadeIn">Diseño de Ceja (Brow Shaping)</h3>
-                <p class="mt-2 text-sm text-gray-600 animate-fadeIn">Definimos la forma ideal de tu ceja, adaptándola a tu rostro para un aspecto natural o dramático.</p>
-            </div>
-
-            <!-- Servicio 2 -->
-            <div class="service-card bg-white p-8 rounded-lg shadow hover:shadow-lg transition-transform">
-                <img src="https://images.unsplash.com/photo-1587587423739-553d90f88a2c?auto=format&fit=crop&w=600&q=80"
-                     alt="Tint de cejas" class="w-full h-40 object-cover animate-fadeIn">
-                <h3 class="mt-4 text-xl font-semibold text-primary animate-fadeIn">Tint de Ceja</h3>
-                <p class="mt-2 text-sm text-gray-600 animate-fadeIn">Color intenso y duradero sin necesidad de retoques. Ideal para eventos y citas importantes.</p>
-            </div>
-
-            <!-- Servicio 3 -->
-            <div class="service-card bg-white p-8 rounded-lg shadow hover:shadow-lg transition-transform">
-                <img src="https://images.unsplash.com/photo-1507508352874-8c0e4b2a7d5f?auto=format&fit=crop&w=600&q=80"
-                     alt="Microblading" class="w-full h-40 object-cover animate-fadeIn">
-                <h3 class="mt-4 text-xl font-semibold text-primary animate-fadeIn">Microblading</h3>
-                <p class="mt-2 text-sm text-gray-600 animate-fadeIn">Técnica de tinta microperforada que simula cejas naturales y dura hasta 2 años.</p>
-            </div>
-
-            <!-- Servicio 4 -->
-            <div class="service-card bg-white p-8 rounded-lg shadow hover:shadow-lg transition-transform">
-                <img src="https://images.unsplash.com/photo-1587587423739-553d90f88a2c?auto=format&fit=crop&w=600&q=80"
-                     alt="Lifting de cejas" class="w-full h-40 object-cover animate-fadeIn">
-                <h3 class="mt-4 text-xl font-semibold text-primary animate-fadeIn">Lifting de Ceja</h3>
-                <p class="mt-2 text-sm text-gray-600 animate-fadeIn">Elevamos y alineamos la ceja para un aspecto más abierto y juvenil.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ==================== CONTACTO / RESERVA ==================== -->
-<section id="contact" class="py-16 bg-gray-100">
-    <div class="container mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-8 animate-fadeIn">Contáctanos</h2>
-
-        <div class="flex justify-center space-x-4">
-            <!-- Formulario -->
-            <form id="contactForm" class="max-w-md w-full space-y-4">
-                <input type="text" name="name" placeholder="Nombre" required class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                <input type="email" name="email" placeholder="Correo electrónico" required class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                <textarea name="message" placeholder="Mensaje" rows="4" required class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
-                <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition-colors animate-fadeIn">
-                    Enviar mensaje
-                </button>
-            </form>
-
-            <!-- Botón de reserva que muestra modal -->
-            <button id="bookingBtn" class="bg-primary text-white px-6 py-3 rounded-full shadow-lg hover:shadow-md transition-shadow animate-fadeIn">
-                <svg class="w-6 h-6 mb-2 inline-block" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 22h8v-10h-8V22z"/>
-                    <path d="M8 12h4v8H8z"/>
-                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
-                </svg>
-                <span class="text-sm font-medium">Reserva ahora</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Modal de confirmación / reserva -->
-    <div id="reservationModal" class="modal hidden">
-        <div class="modal-backdrop"></div>
-        <div class="modal">
-            <div class="modal-header flex items-center justify-between">
-                <h3 class="text-xl font-semibold">Confirmación de reserva</h3>
-                <button class="close-btn" aria-label="Cerrar modal" onclick="document.getElementById('reservationModal').classList.remove('show')">
-                    X
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>¡Gracias por confiar en Beauty & Brow Studio! Tu cita está confirmada. Recibirás un email con los detalles.</p>
-                <button class="mt-4 bg-primary text-white px-6 py-3 rounded hover:bg-secondary transition-colors"
-                        onclick="document.getElementById('reservationModal').classList.remove('show')">
-                    Volver
-                </button>
-            </div>
-            <div class="modal-footer">
-                <button class="text-sm font-medium hover:underline"
-                        onclick="document.getElementById('reservationModal').classList.remove('show')">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ==================== FOOTER ==================== -->
-<footer class="bg-primary text-white py-8">
-    <div class="container mx-auto text-center">
-        <p class="mb-4">
-            © 2025 Beauty & Brow Studio • Todos los derechos reservados.
-        </p>
-        <p>
-            <a href="https://unsplash.com/photos/8c0e4b2a7d5f" target="_blank" rel="noopener noreferrer"
-               class="text-sm underline">Imágenes de referencia de Unsplash</a>
-        </p>
-    </div>
-</footer>
-
-<!-- ==================== JAVASCRIPT (animaciones y modal) ==================== -->
-<script>
-    // ---------- ANIMACIONES AL CARGAR LA PÁGINA ----------
-    const elements = document.querySelectorAll('.animate-fadeIn');
-    elements.forEach(el => {
-        el.classList.add('fade-in');
-        requestAnimationFrame(() => el.classList.remove('fade-in'));
-    });
-
-    // ---------- EFECTO DE SCROLL (para secciones) ----------
-    window.addEventListener('scroll', () => {
-        const sections = document.querySelectorAll('section');
-        sections.forEach(sec => {
-            const offset = sec.getBoundingClientRect().top + window.pageYOffset;
-            if (offset > 200) sec.classList.add('scroll-anim');
-            else sec.classList.remove('scroll-anim');
-        });
-    });
-
-    // ---------- MODAL DE RESERVA ----------
-    const modal = document.getElementById('reservationModal');
-    const showModal = () => {
-        modal.classList.add('show');
-    };
-    const hideModal = () => {
-        modal.classList.remove('show');
-    };
-    document.getElementById('bookingBtn').addEventListener('click', showModal);
-    document.getElementById('close-btn').addEventListener('click', hideModal);
-
-    // ---------- FORMULARIO DE CONTACTO (opcional) ----------
-    document.getElementById('contactForm').addEventListener('submit', e => {
-        e.preventDefault();
-        // Aquí podrías enviar el formulario a tu backend o mostrar un mensaje de éxito.
-        alert('¡Gracias! Tu mensaje ha sido enviado.');
-        e.target.reset();
-        document.getElementById('contactForm').classList.add('hidden');
-        setTimeout(() => document.getElementById('contactForm').classList.remove('hidden'), 2000);
-    });
-</script>
+  <footer>
+    <p>&copy; 2026 Kelbert Emprendedores. Todos los derechos reservados.</p>
+  </footer>
 </body>
 </html>
